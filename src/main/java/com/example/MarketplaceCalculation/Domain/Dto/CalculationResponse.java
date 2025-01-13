@@ -1,7 +1,7 @@
 package com.example.MarketplaceCalculation.Domain.Dto;
 
 
-import com.example.MarketplaceCalculation.Domain.Entity.Enum.Marketplaces;
+import com.example.MarketplaceCalculation.Domain.Entity.Enum.MarketplacesNomes;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +23,8 @@ import lombok.Setter;
         "margemCusto"
 })
 public class CalculationResponse {
-    private Marketplaces marketplaceNome;
+
+    private MarketplacesNomes marketplaceNome;
 
     private double custoProduto;
 

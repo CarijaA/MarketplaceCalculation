@@ -2,7 +2,7 @@ package com.example.MarketplaceCalculation.Domain.Entity.Enum;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-public enum Marketplaces {
+public enum MarketplacesNomes {
 
     MERCADOLIVRE;
    // SHOPEE, // coming soon
@@ -10,8 +10,8 @@ public enum Marketplaces {
 
 
     @JsonCreator
-    public static Marketplaces fromString(String value) {
-        for (Marketplaces nomeMarketplace : Marketplaces.values()) {
+    public static MarketplacesNomes fromString(String value) {
+        for (MarketplacesNomes nomeMarketplace : MarketplacesNomes.values()) {
             if (nomeMarketplace.name().equalsIgnoreCase(value)) {
                 return nomeMarketplace;
             }

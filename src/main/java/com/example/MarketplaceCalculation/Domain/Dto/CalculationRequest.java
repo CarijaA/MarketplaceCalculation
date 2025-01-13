@@ -1,7 +1,6 @@
 package com.example.MarketplaceCalculation.Domain.Dto;
 
-import com.example.MarketplaceCalculation.Domain.Entity.Enum.Marketplaces;
-import jakarta.validation.constraints.NotNull;
+import com.example.MarketplaceCalculation.Domain.Entity.Enum.MarketplacesNomes;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +22,7 @@ public class CalculationRequest {
     }
 
 
-    private Marketplaces marketplaceNome;
+    private MarketplacesNomes marketplaceNome;
 
     private double custoProduto;
 

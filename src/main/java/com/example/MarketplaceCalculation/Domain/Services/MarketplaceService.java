@@ -2,15 +2,11 @@ package com.example.MarketplaceCalculation.Domain.Services;
 
 
 import com.example.MarketplaceCalculation.Domain.Dto.CalculationDto;
-import com.example.MarketplaceCalculation.Domain.Dto.CalculationRequest;
 import com.example.MarketplaceCalculation.Domain.Dto.CalculationResponse;
-import com.example.MarketplaceCalculation.Domain.Entity.MarketplaceMercadoLivre;
-import com.example.MarketplaceCalculation.Domain.Repository.FreteRepository;
+import com.example.MarketplaceCalculation.Domain.Entity.Marketplaces;
 import com.example.MarketplaceCalculation.Domain.Repository.MarketplacesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.text.DecimalFormat;
 
 
 @Service
@@ -24,7 +20,7 @@ public class MarketplaceService {
     FreteService freteService;
 
 
-    public void saveMarketplace(MarketplaceMercadoLivre marketplaceCalculation) {
+    public void saveMarketplace(Marketplaces marketplaceCalculation) {
         marketplacesRepository.save(marketplaceCalculation);
     }
 
@@ -47,7 +43,7 @@ public class MarketplaceService {
         } else {
             taxaFixa = 0.0; // Para valores acima de 79, sem custo fixo
         }
-        double taxaMarketplace = (calculationDto.marketplaceTaxa() * precoVendaLiquida) / 100;
+        double taxaMarketplace = calculationDto.marketplaceTaxa();
         double taxaNotaFiscal = (calculationDto.notaFiscalTaxa() * precoVendaLiquida) / 100;
         double valorFrete = (precoVendaLiquida >= 79) ? freteService.calcularFrete(calculationDto.pesoProduto()) : 0.00;
         double sobraTotal = precoVendaLiquida - custoProduto - taxaMarketplace - taxaFixa - taxaNotaFiscal - valorFrete;
@@ -63,7 +59,7 @@ public class MarketplaceService {
         response.setMarketplaceTaxa(taxaMarketplace);
         response.setNotaFiscalTaxa(taxaNotaFiscal);
         response.setPrecoVendaLiquida(precoVendaLiquida);
-        response.setValorFrete(valorFrete);// totos anúncios acima de 79 oferecem frete grátis
+        response.setValorFrete(valorFrete);  // todos anúncios acima de 79 oferecem frete grátis
         response.setSobraTotal(sobraTotal);
         response.setMargemCusto(margemCusto);
         response.setMargemVenda(margemVenda);

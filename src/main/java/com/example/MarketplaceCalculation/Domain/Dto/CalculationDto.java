@@ -1,9 +1,9 @@
 package com.example.MarketplaceCalculation.Domain.Dto;
 
-import com.example.MarketplaceCalculation.Domain.Entity.Enum.Marketplaces;
+import com.example.MarketplaceCalculation.Domain.Entity.Enum.MarketplacesNomes;
 import jakarta.validation.constraints.NotNull;
 
-public record CalculationDto(Marketplaces marketplaceNome, @NotNull double custoProduto,
+public record CalculationDto(MarketplacesNomes marketplaceNome, @NotNull double custoProduto,
                              @NotNull double precoVenda,
                              @NotNull double promocaoVenda,
                              @NotNull double precoVendaLiquida,

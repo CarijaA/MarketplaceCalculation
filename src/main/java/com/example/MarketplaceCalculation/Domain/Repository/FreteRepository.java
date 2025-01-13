@@ -7,8 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface FreteRepository extends JpaRepository<Fretes, Long> {
 
+
     @Query("SELECT f.valorFull FROM Fretes f WHERE :peso >= f.pesoMin AND (:peso < f.pesoMax OR f.pesoMax IS NULL)")
-
-
     Double buscarFretePorPeso(@Param("peso") Double peso);
 }

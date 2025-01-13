@@ -12,6 +12,15 @@
             justify-content: center;
         }
 
+        .destaque {
+            background-color: #f4f4f4;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
+            color: #007bff;
+        }
+
         .container {
             display: flex;
             max-width: 800px;
@@ -75,20 +84,30 @@
         <label>Marketplace Nome:</label>
         <input type="text" id="marketplaceNome" value="MercadoLivre" disabled>
         <label>Custo do Produto:</label>
-        <input type="text" id="custoProduto" placeholder="Custo do Produto" oninput="formatarMoeda(this)">
+        <input type="text" id="custoProduto" placeholder="Custo do Produto"
+               oninput="formatarMoeda(this); verificarValorPositivo(this)">
         <label>Preço de Venda:</label>
-        <input type="text" id="precoVenda" placeholder="Preço de Venda" oninput="formatarMoeda(this)">
+        <input type="text" id="precoVenda" placeholder="Preço de Venda"
+               oninput="formatarMoeda(this); verificarValorPositivo(this)">
         <label>Promoção de Venda (%):</label>
-        <input type="number" id="promocaoVenda" placeholder="Promoção de Venda (%)">
+        <input type="number" id="promocaoVenda" placeholder="Promoção de Venda (%)"
+               oninput="verificarValorPositivo(this)">
+        <label>Preço de Venda Líquido:</label>
+        <input type="text" id="precoLiquido" placeholder="Preço de Venda Líquido" oninput="formatarMoeda(this)"
+               disabled>
         <label>Taxa Fixa:</label>
         <input type="number" id="taxaFixa" placeholder="Taxa Fixa" readonly>
         <small>Calculada automaticamente com base na venda líquida.</small>
         <label>Taxa Marketplace (%):</label>
-        <input type="text" id="marketplaceTaxa" placeholder="Taxa Marketplace (%)" oninput="formatarPorcentagem(this)">
+        <input type="number" id="marketplaceTaxa" placeholder="Taxa Marketplace (%)"
+               oninput="formatarPorcentagem(this); verificarValorPositivo(this)">
         <label>Taxa Nota Fiscal (%):</label>
-        <input type="text" id="notaFiscalTaxa" placeholder="Taxa Nota Fiscal (%)" oninput="formatarPorcentagem(this)">
+        <input type="number" id="notaFiscalTaxa" placeholder="Taxa Nota Fiscal (%)"
+               oninput="formatarPorcentagem(this); verificarValorPositivo(this)">
         <label>Peso do Produto (kg):</label>
-        <input type="number" id="pesoProduto" placeholder="Peso do Produto (kg)">
+        <input type="number" id="pesoProduto" placeholder="Peso do Produto (kg)" oninput="verificarValorPositivo(this)">
+        <small>Para produtos com preço acima de R$ 79, o frete é grátis. Caso o preço seja acima de R$ 79 e o peso não
+            seja informado, o valor do frete será R$ 19,95 por padrão.</small>
         <button id="calcular">Calcular</button>
     </div>
     <div class="results" id="resultado">
@@ -97,7 +116,18 @@
     </div>
 </div>
 
+
 <script>
+    // Função para garantir que os valores não sejam negativos
+    function verificarValorPositivo(input) {
+        let valor = parseFloat(input.value.replace('R$ ', '').replace(',', '.'));
+
+        if (isNaN(valor) || valor < 0) {
+            input.value = '';  // Limpa o campo se o valor for negativo ou inválido
+        }
+    }
+
+
     // Função para formatar valores em reais (R$)
     function formatarMoeda(input) {
         let valor = input.value.replace(/\D/g, ''); // Remove qualquer caractere não numérico
@@ -116,6 +146,21 @@
         if (valor) {
             valor = parseInt(valor);
             input.value = valor > 100 ? 100 : valor; // Limita o valor máximo a 100%
+        }
+    }
+
+    // Função para atualizar o preço líquido automaticamente
+    function atualizarVendaLiquida() {
+        const precoVenda = parseFloat(document.getElementById('precoVenda').value.replace('R$ ', '').replace(',', '.'));
+        const promocaoVenda = parseFloat(document.getElementById('promocaoVenda').value) || 0; // Promoção de Venda (%)
+        const precoLiquido = document.getElementById('precoLiquido');
+
+        if (!isNaN(precoVenda)) {
+            // Calcula o preço líquido considerando a promoção de venda
+            const valorLiquido = precoVenda - (precoVenda * (promocaoVenda / 100));
+            precoLiquido.value = 'R$ ' + valorLiquido.toFixed(2).replace('.', ',').replace(/(\d)(\d{3})$/, '$1.$2').replace(/(\d)(\d{3})\.(\d{2})$/, '$1.$2,$3');
+        } else {
+            precoLiquido.value = '';
         }
     }
 
@@ -147,8 +192,15 @@
     }
 
     // Adiciona eventos nos campos relacionados
-    document.getElementById('precoVenda').addEventListener('input', atualizarTaxaFixa);
-    document.getElementById('promocaoVenda').addEventListener('input', atualizarTaxaFixa);
+    document.getElementById('precoVenda').addEventListener('input', () => {
+        atualizarVendaLiquida();  // Atualiza o preço líquido sempre que o preço de venda é alterado
+        atualizarTaxaFixa(); // Atualiza a taxa fixa
+    });
+
+    document.getElementById('promocaoVenda').addEventListener('input', () => {
+        atualizarVendaLiquida();  // Atualiza o preço líquido sempre que a promoção de venda é alterada
+        atualizarTaxaFixa(); // Atualiza a taxa fixa
+    });
 
     // Lógica principal para o cálculo
     document.getElementById('calcular').addEventListener('click', async () => {
@@ -156,6 +208,7 @@
         const custoProduto = parseFloat(document.getElementById('custoProduto').value.replace('R$ ', '').replace(',', '.'));
         const precoVenda = parseFloat(document.getElementById('precoVenda').value.replace('R$ ', '').replace(',', '.'));
         const promocaoVenda = parseFloat(document.getElementById('promocaoVenda').value);
+        const vendaLiquida = parseFloat(document.getElementById('precoLiquido').value.replace('R$ ', '').replace(',', '.'));
         const taxaFixa = parseFloat(document.getElementById('taxaFixa').value);
         const marketplaceTaxa = parseFloat(document.getElementById('marketplaceTaxa').value.replace('%', ''));
         const notaFiscalTaxa = parseFloat(document.getElementById('notaFiscalTaxa').value.replace('%', ''));
@@ -182,7 +235,7 @@
         try {
             const response = await fetch('http://localhost:8080/marketplaceCalculation', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload),
             });
 
@@ -200,11 +253,11 @@
                 <p><strong>Preço de Venda Líquida:</strong> R$ ${data.precoVendaLiquida.toFixed(2)}</p>
                 <p><strong>Taxa Fixa:</strong> R$ ${data.taxaFixa.toFixed(2)}</p>
                 <p><strong>Taxa Marketplace:</strong> ${data.marketplaceTaxa.toFixed(2)}%</p>
-                <p><strong>Taxa Nota Fiscal:</strong> ${data.notaFiscalTaxa.toFixed(2)}%</p>
+                <p><strong>Taxa Nota Fiscal:</strong> R$ ${data.notaFiscalTaxa.toFixed(2)}</p>
                 <p><strong>Valor do Frete:</strong> R$ ${data.valorFrete.toFixed(2)}</p>
                 <p><strong>Sobra Total:</strong> R$ ${data.sobraTotal.toFixed(2)}</p>
-                <p><strong>Margem de Custo:</strong> ${data.margemCusto.toFixed(2)}%</p>
-                <p><strong>Margem de Venda:</strong> ${data.margemVenda.toFixed(2)}%</p>
+               <p class="destaque"><strong>Margem de Custo:</strong> ${data.margemCusto.toFixed(2)}%</p>
+<p class="destaque"><strong>Margem de Venda:</strong> ${data.margemVenda.toFixed(2)}%</p>
             `;
             document.getElementById('resultado').innerHTML = resultado;
         } catch (error) {

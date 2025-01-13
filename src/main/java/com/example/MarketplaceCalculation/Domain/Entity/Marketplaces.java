@@ -1,7 +1,7 @@
 package com.example.MarketplaceCalculation.Domain.Entity;
 
 
-import com.example.MarketplaceCalculation.Domain.Entity.Enum.Marketplaces;
+import com.example.MarketplaceCalculation.Domain.Entity.Enum.MarketplacesNomes;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +18,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class MarketplaceMercadoLivre {
+public class Marketplaces {
 
 
     @Id
@@ -26,8 +26,7 @@ public class MarketplaceMercadoLivre {
     long id;
 
     @NotNull
-    Marketplaces marketplaceNome;
-
+    MarketplacesNomes marketplaceNome;
     @NotNull
     Double custoProduto;
 

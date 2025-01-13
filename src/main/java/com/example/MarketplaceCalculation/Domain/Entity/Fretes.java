@@ -1,7 +1,4 @@
 package com.example.MarketplaceCalculation.Domain.Entity;
-
-
-import com.example.MarketplaceCalculation.Domain.Dto.CalculationDto;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
