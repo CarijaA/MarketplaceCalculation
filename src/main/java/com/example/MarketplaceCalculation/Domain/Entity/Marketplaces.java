@@ -10,7 +10,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 
 
 @Entity
@@ -25,15 +24,14 @@ public class Marketplaces {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
-    @NotNull
+    int tipoVendedor;
+
     MarketplacesNomes marketplaceNome;
-    @NotNull
+
     Double custoProduto;
 
-    @NotNull
     Double precoVenda;
 
-    @NotNull
     Double precoFrete;
 
 

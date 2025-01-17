@@ -26,6 +26,8 @@ public class CalculationResponse {
 
     private MarketplacesNomes marketplaceNome;
 
+    private int  tipoVendedor;
+
     private double custoProduto;
 
     private double precoVenda;
@@ -47,7 +49,5 @@ public class CalculationResponse {
     private double MargemCusto;
 
     private double MargemVenda;
-
-
 
 }

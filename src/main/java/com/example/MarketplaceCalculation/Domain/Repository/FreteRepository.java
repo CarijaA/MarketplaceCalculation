@@ -7,7 +7,17 @@ import org.springframework.data.repository.query.Param;
 
 public interface FreteRepository extends JpaRepository<Fretes, Long> {
 
+    @Query(value = "SELECT TOP 1 valor " +
+            "FROM Fretes " +
+            "WHERE :peso >= pesoMin " +
+            "AND (:peso < pesoMax OR pesoMax = 9999.99) " +
+            "AND reputacao = :reputacao " +
+            "AND tipoEnvio = :tipoEnvio " +
+            "AND regiao = :regiao " +
+            "ORDER BY valor ASC", nativeQuery = true)
+    Double buscarFretePorPesoReputacaoTipoEnvioERegiao(@Param("peso") Double peso,
+                                                       @Param("reputacao") int reputacao,
+                                                       @Param("tipoEnvio") int tipoEnvio,
+                                                       @Param("regiao") int regiao);
 
-    @Query("SELECT f.valorFull FROM Fretes f WHERE :peso >= f.pesoMin AND (:peso < f.pesoMax OR f.pesoMax IS NULL)")
-    Double buscarFretePorPeso(@Param("peso") Double peso);
 }
