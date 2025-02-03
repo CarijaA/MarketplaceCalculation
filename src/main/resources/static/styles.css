@@ -1,0 +1,136 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(90deg, #ff66c4, #ffde59);
+}
+
+.destaque {
+    background-color: #f4f4f4;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+    color: #007bff;
+}
+
+.container {
+    display: flex;
+    max-width: 800px;
+    width: 100%;
+    gap: 20px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.inputs {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Coloca os elementos em coluna */
+    align-items: center; /* Centraliza horizontalmente */
+    justify-content: center; /* Centraliza verticalmente */
+    text-align: center;
+}
+
+.input-group {
+    display: grid;
+    grid-template-columns: 250px 1fr; /* Define a largura automática para a label e ajusta o input */
+    gap: 10px; /* Reduz o espaço entre label e input */
+    align-items: center;
+    margin-bottom: 10px; /* Reduz o espaçamento entre os grupos */
+}
+
+.inputs input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.inputs label {
+    font-family: Arial, sans-serif;
+    font-size: 16px; /* Diminui um pouco a fonte para melhor alinhamento */
+    white-space: nowrap; /* Impede que a label quebre para outra linha */
+    text-align: left;
+}
+
+.input-group small {
+    font-size: 12px; /* Deixa o texto mais discreto */
+    color: gray;
+    white-space: nowrap;
+    margin-left: 260px;
+}
+
+.inputs h2, .results h2 {
+    text-align: center; /* Centraliza o texto do título */
+    width: 100%; /* Ocupa toda a largura disponível */
+}
+
+.inputs button {
+    width: 200px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px; /* Espaço entre os inputs e o botão */
+    align-self: center; /* Centraliza o botão */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+small {
+    display: block;
+    color: gray;
+    margin-top: 10px;
+}
+
+
+.containerResult {
+    display: none; /* Inicialmente escondido */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    width: 80%;
+    max-width: 400px;
+}
+
+/* Fundo escuro ao fundo quando o pop-up aparecer */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.results {
+    flex: 1;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.results p {
+    margin: 10px 0;
+}
+
+.inputs input:focus::placeholder {
+    color: transparent; /* Torna o placeholder invisível quando o input estiver focado */
+}
