@@ -20,22 +20,18 @@ Spring Boot Validation
 ⚙️ Configuração e Instalação
 
 1️⃣ Clonando o repositório
-
-bash
-
-Copiar
-
-Editar
-
+```bash
 git clone https://github.com/seu-usuario/MarketplaceCalculation.git
-
+```
+```bash
 cd MarketplaceCalculation
+```
 
 2️⃣ Configurando o Banco de Dados
 
 A API utiliza Microsoft SQL Server. No arquivo application.properties, substitua os valores pelos dados do seu ambiente local:
 
-
+```bash
 properties
 
 spring.datasource.url=jdbc:sqlserver://SEU_SERVIDOR\\INSTANCIA:1433;databaseName=SEU_BANCO;trustServerCertificate=true;
@@ -43,12 +39,14 @@ spring.datasource.url=jdbc:sqlserver://SEU_SERVIDOR\\INSTANCIA:1433;databaseName
 spring.datasource.username=SEU_USUARIO
 
 spring.datasource.password=SUA_SENHA
+```
 
 🔹 Se estiver usando outro banco de dados, ajuste a URL e o driver correspondente.
 
 3️⃣ Instalando as dependências
-bash
-```mvn clean install```
+```bash
+mvn clean install
+```
 
 
 4️⃣ Executando o projeto
