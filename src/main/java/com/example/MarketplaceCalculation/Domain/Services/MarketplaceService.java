@@ -21,27 +21,20 @@ public class MarketplaceService {
     }
 
     public CalculationResponse calculationFee(CalculationDto calculationDto) {
-        // Dados iniciais
+
+        if (calculationDto.custoProduto() < 0 || calculationDto.precoVenda() < 0) {
+            throw new IllegalArgumentException("Valores negativos não são permitidos");
+        }
+
         double custoProduto = calculationDto.custoProduto();
         double precoVenda = calculationDto.precoVenda();
         double promocaoVenda = calculationDto.promocaoVenda();
-
-        // Calcula o preço de venda líquida
         double precoVendaLiquida = precoVenda - ((precoVenda * promocaoVenda) / 100);
-
-        // Calcula a taxa fixa
         double taxaFixa = calcularTaxaFixa(precoVendaLiquida);
-
-        // Outras taxas
         double taxaMarketplace = calculationDto.marketplaceTaxa();
         double taxaNotaFiscal = (calculationDto.notaFiscalTaxa() * precoVendaLiquida) / 100;
-
-        // Cálculo do frete
-        int reputacao = calculationDto.tipoVendedor();
-        int tipoEnvio = calculationDto.tipoEnvio();
-        double valorFrete = freteService.calcularFrete(calculationDto.pesoProduto(), reputacao, tipoEnvio, calculationDto.regiao());
-
-        // Calcula a sobra total e as margens
+        double valorFrete = freteService.calcularFrete(calculationDto.pesoProduto(), calculationDto.reputacao(),
+                calculationDto.tipoEnvio(), calculationDto.regiao());
         double sobraTotal = precoVendaLiquida - custoProduto - taxaMarketplace - taxaFixa - taxaNotaFiscal - valorFrete;
         double margemCusto = (sobraTotal / custoProduto) * 100;
         double margemVenda = (sobraTotal / precoVendaLiquida) * 100;
@@ -60,12 +53,14 @@ public class MarketplaceService {
         response.setSobraTotal(sobraTotal);
         response.setMargemCusto(margemCusto);
         response.setMargemVenda(margemVenda);
-        response.setTipoVendedor(reputacao);
+        response.setReputacao(calculationDto.reputacao());
+        response.setTipoEnvio(calculationDto.tipoEnvio());
+        response.setRegiao(calculationDto.regiao());
 
         return response;
     }
 
-    private double calcularTaxaFixa(double precoVendaLiquida) {
+    public double calcularTaxaFixa(double precoVendaLiquida) {
         if (precoVendaLiquida <= 29) {
             return 6.25;
         } else if (precoVendaLiquida <= 50) {

@@ -10,6 +10,9 @@ import lombok.Setter;
 @Setter
 @JsonPropertyOrder({
         "marketplaceNome",
+        "reputacao",
+        "tipoEnvio",
+        "regiao",
         "precoVenda",
         "promocaoVenda",
         "precoVendaLiquida",
@@ -23,31 +26,20 @@ import lombok.Setter;
         "margemCusto"
 })
 public class CalculationResponse {
-
     private MarketplacesNomes marketplaceNome;
-
-    private int  tipoVendedor;
-
+    private int reputacao;
+    private int tipoEnvio;
+    private int regiao;
     private double custoProduto;
-
     private double precoVenda;
-
     private double promocaoVenda;
-
     private double precoVendaLiquida;
-
     private double taxaFixa;
-
     private double marketplaceTaxa;
-
     private double notaFiscalTaxa;
-
-    private double ValorFrete;
-
+    private double valorFrete;
     private double sobraTotal;
-
-    private double MargemCusto;
-
-    private double MargemVenda;
-
+    private double margemCusto;
+    private double margemVenda;
 }
+

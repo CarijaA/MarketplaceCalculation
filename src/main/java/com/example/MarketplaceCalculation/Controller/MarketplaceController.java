@@ -2,8 +2,6 @@ package com.example.MarketplaceCalculation.Controller;
 
 
 import com.example.MarketplaceCalculation.Domain.Dto.CalculationDto;
-import com.example.MarketplaceCalculation.Domain.Dto.CalculationRequest;
-import com.example.MarketplaceCalculation.Domain.Services.FreteService;
 import com.example.MarketplaceCalculation.Domain.Services.MarketplaceService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,7 @@ public class MarketplaceController {
 
 
     @PostMapping
+    @CrossOrigin(origins = "http//localhost:5173")
     public ResponseEntity marketplaceCalculation(@RequestBody @Valid CalculationDto calculationDto) {
 
     var result = marketplaceService.calculationFee(calculationDto);
@@ -27,6 +26,10 @@ public class MarketplaceController {
 
     }
 
+
+    
+
+    
 
 
 }

@@ -12,8 +12,9 @@ public class CalculationRequest {
 
     public CalculationRequest(CalculationDto calculationDto) {
         this.marketplaceNome = calculationDto.marketplaceNome();
-        this.tipoVendedor = calculationDto.tipoVendedor();
+        this.regiao = calculationDto.regiao();
         this.tipoEnvio = calculationDto.tipoEnvio();
+        this.reputacao = calculationDto.reputacao();
         this.custoProduto = calculationDto.custoProduto();
         this.precoVenda = calculationDto.precoVenda();
         this.promocaoVenda = calculationDto.promocaoVenda();
@@ -26,9 +27,12 @@ public class CalculationRequest {
 
     private MarketplacesNomes marketplaceNome;
 
-    private int tipoEnvio;
 
-    private int tipoVendedor;
+    private int regiao;
+
+    private int reputacao;
+
+    private int tipoEnvio;
 
     private double custoProduto;
 
